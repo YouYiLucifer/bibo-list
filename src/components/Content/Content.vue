@@ -6,15 +6,28 @@
            placeholder="标题..."
            :value="titleTarget"
            style="outline: none">
-    <div class="editor"
-         placeholder="开始你的清单..."
-         contenteditable="true"
-         style="outline: none; cursor: text">{{ content }}</div>
+    <input class="editor"
+              ref="content"
+              placeholder="开始你的清单..."
+              style="outline: none; cursor: text"
+              :value="contentTarget">
   </div>
 </template>
 <script>
 export default {
-  
+  computed: {
+    titleTarget () {
+      return this.$store.state.todolist[this.$store.state.currentTodoId].title
+    },
+    contentTarget () {
+      return this.$store.state.todolist[this.$store.state.currentTodoId].content
+    }
+  },
+  menthods: {
+    changeContent (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -36,6 +49,7 @@ export default {
     padding 20px 30px
     width 100%
     height 100%
+    border 0
     &:empty:before
       content attr(placeholder)
       font-size 16px

@@ -8,26 +8,20 @@
     </div>
     <div class="menu">
       <ul>
-        <li class="menu-item">
-          <router-link to="/all">
-            <span class="icon-files-empty"></span>
-            <span class="text">所有</span>
-            <span class="count">0</span>
-          </router-link>
+        <li class="menu-item" @click="toggleTag('all')" :class="{ active: currentTag === 'all' }">
+          <span class="icon-files-empty"></span>
+          <span class="text">所有</span>
+          <span class="count">{{ allCount }}</span>
         </li>
-        <li class="menu-item">
-          <router-link to="/finished">
-            <span class="icon-checkmark2"></span>
-            <span class="text">已完成</span>
-            <span class="count">0</span>
-          </router-link>
+        <li class="menu-item" @click="toggleTag('finished')" :class="{ active: currentTag === 'finished' }">
+          <span class="icon-checkmark2"></span>
+          <span class="text">已完成</span>
+          <span class="count">{{ activeCount }}</span>
         </li>
-        <li class="menu-item">
-          <router-link to="/deleted">
-            <span class="icon-trash"></span>
-            <span class="text">垃圾桶</span>
-            <span class="count">0</span>
-          </router-link>
+        <li class="menu-item" @click="toggleTag('deleted')" :class="{ active: currentTag === 'deleted' }">
+          <span class="icon-trash"></span>
+          <span class="text">垃圾桶</span>
+          <span class="count">{{ deletedCount }}</span>
         </li>
       </ul>
     </div>
@@ -37,8 +31,28 @@
   </div>
 </template>
 <script>
+import * as types from '../../vuex/types'
+
 export default {
-  
+  methods: {
+    toggleTag (tagName) {
+      this.$store.commit(types.TOGGLE_TAG, tagName)
+    }
+  },
+  computed: {
+    currentTag () {
+      return this.$store.state.currentTag
+    },
+    allCount () {
+      return this.$store.state.todolist.length
+    },
+    activeCount () {
+      return this.$store.state.todolist.filter(todo => todo.status === 'active').length
+    },
+    deletedCount () {
+      return this.$store.state.todolist.filter(todo => todo.status === 'deleted').length
+    }
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -74,32 +88,32 @@ export default {
     flex 1 0 auto
     border-bottom 1px solid rgb(62, 116, 216)
     .menu-item
-      a
-        display block
-        padding 16px 20px
-        box-sizing border-box
-        position relative
-        text-decoration none
-        color #fff
-        &.active
-          background rgb(62, 116, 216)
-        &:hover
-          background rgb(62, 116, 216)
-        .icon-files-empty, .icon-checkmark2, .icon-trash
-          display inline-block
-          margin-right 6px
-          vertical-align top
-          font-size 16px
-        .text
-          display inline-block
-          vertical-align middle
-          font-size 14px
-        .count
-          display inline-block
-          position absolute
-          right 20px
-          vertical-align middle
-          font-size 14px
+      display block
+      padding 16px 20px
+      box-sizing border-box
+      position relative
+      text-decoration none
+      color #fff
+      &.active
+        background rgb(62, 116, 216)
+      &:hover
+        background rgb(62, 116, 216)
+        cursor pointer
+      .icon-files-empty, .icon-checkmark2, .icon-trash
+        display inline-block
+        margin-right 6px
+        vertical-align top
+        font-size 16px
+      .text
+        display inline-block
+        vertical-align middle
+        font-size 14px
+      .count
+        display inline-block
+        position absolute
+        right 20px
+        vertical-align middle
+        font-size 14px
   .vip
     width 100%
     height 60px

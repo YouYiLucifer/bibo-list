@@ -13,15 +13,10 @@
         <ul>
           <li class="item"
               :class="{finished: item.isFinished}"
-              v-for="(item, index) in items"
-              :key="index"
-              @click="toggleFinished(item)">
-            <router-link to="/all/detail">
-              <div class="title-item" contenteditable="true" ref="item">
-                {{ item.label }}
-                <span class="icon-trash" @click="del"></span>
-              </div>
-            </router-link>
+              v-for="item in getTodos"
+              :key="item.id"
+              @click="selectCurrentTodo(item)">
+              {{ item.title }}
           </li>
         </ul>
       </div>
@@ -29,8 +24,32 @@
   </div>
 </template>
 <script>
+import * as types from '../../vuex/types'
+
 export default {
-  
+  data () {
+    return {
+      newTitle: '',
+      items: []
+    }
+  },
+  computed: {
+    getTodos () {
+      if (this.$store.state.currentTag === 'all') {
+        return this.$store.state.todolist
+      }
+      return this.$store.state.todolist.filter(todo => todo.status === this.$store.state.currentTag)
+    }
+  },
+  methods: {
+    addTitle () {
+      const newTodo = {id: this.$store.state.todolist.length, title: this.newTitle, status: 'active', content: ''}
+      this.$store.commit(types.ADD_NEW_TODO, newTodo)
+    },
+    selectCurrentTodo (item) {
+      this.$store.commit(types.DISPLAY_CONTENT, item.id)
+    }
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -55,26 +74,24 @@ export default {
         border-radius 4px
         color rgb(130, 130, 130)
         border 1px solid rgb(230, 230, 230)
-    .finished
-      text-decoration underline
-    a
-      display block
-      padding 12px 30px
-      box-sizing border-box
-      position relative
-      font-size 14px
-      line-height 14px
-      text-decoration none
-      color rgb(70, 70, 70)
-      // &.active
-      //   background rgb(230, 230, 230)
-      &:hover
-        background rgb(230, 230, 230)
-      .title-item
-        background none
-        outline none
-        width 100%
-        .icon-trash
-          position absolute
-          right 30px
+  .item
+    display block
+    padding 12px 30px
+    box-sizing border-box
+    position relative
+    font-size 14px
+    line-height 14px
+    text-decoration none
+    color rgb(70, 70, 70)
+    // &.active
+    //   background rgb(230, 230, 230)
+    &:hover
+      background rgb(230, 230, 230)
+    .title-item
+      background none
+      outline none
+      width 100%
+      .icon-trash
+        position absolute
+        right 30px
 </style>

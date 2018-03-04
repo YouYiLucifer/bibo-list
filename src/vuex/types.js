@@ -1,0 +1,3 @@
+export const TOGGLE_TAG = 'TOGGLE_TAG'
+export const ADD_NEW_TODO = 'ADD_NEW_TODO'
+export const DISPLAY_CONTENT = 'DISPLAY_CONTENT'
