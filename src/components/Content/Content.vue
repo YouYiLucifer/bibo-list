@@ -17,15 +17,22 @@
 export default {
   computed: {
     titleTarget () {
-      return this.$store.state.todolist[this.$store.state.currentTodoId].title
+      if (!this.$store.state.todolist.length) {
+        return ''
+      } else if (this.$store.state.todolist.length > 0 && this.$store.state.currentTodoId >= 0) {
+        return this.$store.state.todolist[this.$store.state.currentTodoId].title
+      } else {
+        return this.$store.state.todolist[0].title
+      }
     },
     contentTarget () {
-      return this.$store.state.todolist[this.$store.state.currentTodoId].content
-    }
-  },
-  menthods: {
-    changeContent (e) {
-      console.log(e)
+      if (!this.$store.state.todolist.length) {
+        return ''
+      } else if (this.$store.state.todolist.length > 0 && this.$store.state.currentTodoId >= 0) {
+        return this.$store.state.todolist[this.$store.state.currentTodoId].content
+      } else {
+        return this.$store.state.todolist[0].content
+      }
     }
   }
 }
@@ -49,6 +56,7 @@ export default {
     padding 20px 30px
     width 100%
     height 100%
+    text-align center
     border 0
     &:empty:before
       content attr(placeholder)

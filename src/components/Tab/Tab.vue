@@ -4,7 +4,7 @@
       <a href="#" class="avatar-wrapper">
         <img src="./avatar.jpg" class="avatar">
       </a>
-      <p class="name">Lucifer的APP</p>
+      <p class="name">Lucifer</p>
     </div>
     <div class="menu">
       <ul>
@@ -16,7 +16,7 @@
         <li class="menu-item" @click="toggleTag('finished')" :class="{ active: currentTag === 'finished' }">
           <span class="icon-checkmark2"></span>
           <span class="text">已完成</span>
-          <span class="count">{{ activeCount }}</span>
+          <span class="count">{{ finishedCount }}</span>
         </li>
         <li class="menu-item" @click="toggleTag('deleted')" :class="{ active: currentTag === 'deleted' }">
           <span class="icon-trash"></span>
@@ -44,10 +44,10 @@ export default {
       return this.$store.state.currentTag
     },
     allCount () {
-      return this.$store.state.todolist.length
+      return this.$store.state.todolist.filter(todo => todo.status === 'active' || todo.status === 'finished').length
     },
-    activeCount () {
-      return this.$store.state.todolist.filter(todo => todo.status === 'active').length
+    finishedCount () {
+      return this.$store.state.todolist.filter(todo => todo.status === 'finished').length
     },
     deletedCount () {
       return this.$store.state.todolist.filter(todo => todo.status === 'deleted').length
