@@ -4,12 +4,12 @@
       <div class="new-wrapper">
         <input class="newTitle"
                type="text"
-               placeholder="标题..."
-               v-model="newTitle"
+               placeholder="添加任务，回车即保存"
+               v-model.trim="newTitle"
                style="outline: none"
                @keyup.enter="addTitle">
       </div>
-      <div class="menu">
+      <div class="menu" v-show="this.$store.state.todolist.length">
         <ul>
           <li class="item"
               :class="{ active: currentTodoId === getTodos.indexOf(item),
@@ -20,16 +20,21 @@
               @click="selectCurrentTodo(item)">
               {{ item.title }}
               <div class="tags">
-                <span v-show="item.status !== 'deleted'"
-                      class="icon-checkmark2"
+                <span :class="{ icon_unchecked: item.status === 'active',
+                                icon_checked: item.status === 'finished',
+                                icon_drawer: item.status === 'deleted'}"
                       @click="toFinished(item)"></span>
-                <span v-show="item.status === 'deleted'"
-                      @click="toActive(item)">恢复</span>
-                <span class="icon-trash"
+                <span class="icon_trash"
                       @click="toDeleted(item)"></span>
               </div>
           </li>
         </ul>
+      </div>
+      <div class="no-title" v-show="!this.$store.state.todolist.length">
+        <div class="wrapper">
+          <span class="icon_drawer"></span>
+        </div>
+        <span class="text">还没有任务哦～</span>
       </div>
     </div>
   </div>
@@ -82,10 +87,10 @@ export default {
       this.$store.commit(types.DISPLAY_CONTENT, this.getTodos.indexOf(item))
     },
     toFinished (item) {
-      if (item.status === 'finished') {
-        item.status = 'active'
-      } else {
+      if (item.status === 'active') {
         item.status = 'finished'
+      } else {
+        item.status = 'active'
       }
     },
     toDeleted (item) {
@@ -108,6 +113,8 @@ export default {
   display flex
   .all
     flex 0 0 400px
+    display flex
+    flex-direction column
     width 400px
     border-right 1px solid rgb(230, 230, 230)
     .new-wrapper
@@ -143,7 +150,7 @@ export default {
       background rgb(240, 240, 240)
     .tags
       float right
-      .icon-checkmark2
+      .icon_unchecked, .icon_checked, .icon_drawer
         margin-right 8px
         font-size 14px
         &:hover
@@ -152,4 +159,28 @@ export default {
         font-size 14px
         &:hover
           cursor pointer
+  .no-title
+    // display flex
+    width 100%
+    height 100%
+    .wrapper
+      margin 60px auto 0
+      width 200px
+      height 200px
+      border-radius 50%
+      background rgb(80, 130, 225)
+      .icon_drawer
+        display block
+        text-align center
+        line-height 150px
+        font-size 100px
+        color #fff
+    .text
+      display block
+      margin 40px auto 0
+      width 250px
+      height 50px
+      font-size 30px
+      text-align center
+      color rgb(200, 200, 200)
 </style>

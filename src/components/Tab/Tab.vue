@@ -9,17 +9,17 @@
     <div class="menu">
       <ul>
         <li class="menu-item" @click="toggleTag('all')" :class="{ active: currentTag === 'all' }">
-          <span class="icon-files-empty"></span>
+          <span class="icon_files"></span>
           <span class="text">所有</span>
           <span class="count">{{ allCount }}</span>
         </li>
         <li class="menu-item" @click="toggleTag('finished')" :class="{ active: currentTag === 'finished' }">
-          <span class="icon-checkmark2"></span>
+          <span class="icon_checkmark"></span>
           <span class="text">已完成</span>
           <span class="count">{{ finishedCount }}</span>
         </li>
         <li class="menu-item" @click="toggleTag('deleted')" :class="{ active: currentTag === 'deleted' }">
-          <span class="icon-trash"></span>
+          <span class="icon_trash"></span>
           <span class="text">垃圾桶</span>
           <span class="count">{{ deletedCount }}</span>
         </li>
@@ -44,7 +44,7 @@ export default {
       return this.$store.state.currentTag
     },
     allCount () {
-      return this.$store.state.todolist.filter(todo => todo.status === 'active' || todo.status === 'finished').length
+      return this.$store.state.todolist.length
     },
     finishedCount () {
       return this.$store.state.todolist.filter(todo => todo.status === 'finished').length
@@ -99,7 +99,7 @@ export default {
       &:hover
         background rgb(62, 116, 216)
         cursor pointer
-      .icon-files-empty, .icon-checkmark2, .icon-trash
+      .icon_files, .icon_checkmark, .icon_trash
         display inline-block
         margin-right 6px
         vertical-align top
