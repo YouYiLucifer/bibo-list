@@ -97,7 +97,7 @@ export default {
       if (item.status !== 'deleted') {
         item.status = 'deleted'
       } else {
-        this.getTodos.splice(this.getTodos.indexOf(item), 1)
+        this.$store.state.todolist.splice(this.$store.state.todolist.indexOf(item), 1)
         this.$store.state.currentTodoId = 0
       }
     },
