@@ -37,6 +37,7 @@ export default {
   methods: {
     toggleTag (tagName) {
       this.$store.commit(types.TOGGLE_TAG, tagName)
+      this.$store.state.currentTodoId = 0
     }
   },
   computed: {
@@ -65,7 +66,7 @@ export default {
   height 100vh
   .user
     box-sizing border-box
-    padding 16px 16px
+    padding 16px
     font-size 0
     color #fff
     border-bottom 1px solid rgb(62, 116, 216)
@@ -90,7 +91,6 @@ export default {
     .menu-item
       display block
       padding 16px 20px
-      box-sizing border-box
       position relative
       text-decoration none
       color #fff
@@ -106,13 +106,11 @@ export default {
         font-size 16px
       .text
         display inline-block
-        vertical-align middle
         font-size 14px
       .count
         display inline-block
         position absolute
         right 20px
-        vertical-align middle
         font-size 14px
   .vip
     width 100%

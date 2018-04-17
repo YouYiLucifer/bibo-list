@@ -1,6 +1,6 @@
 <template>
   <div class="right-wrapper">
-    <div class="item-wrapper" v-show="this.$store.state.todolist.length">
+    <div class="item-wrapper" v-if="this.$store.state.todolist.length">
       <input ref="title"
             class="newTitle"
             type="text"
@@ -15,7 +15,7 @@
                 :value="contentTarget"
                 @change="changeContent"></textarea>
     </div>
-    <div class="no-title" v-show="!this.$store.state.todolist.length">
+    <div class="no-title" v-if="!this.$store.state.todolist.length">
       <span>创建一个新清单</span>
     </div>
   </div>
@@ -23,22 +23,28 @@
 <script>
 export default {
   computed: {
+    getTodos () {
+      if (this.$store.state.currentTag === 'all') {
+        return this.$store.state.todolist
+      }
+      return this.$store.state.todolist.filter(todo => todo.status === this.$store.state.currentTag)
+    },
     titleTarget () {
-      if (!this.$store.state.todolist.length) {
+      if (!this.getTodos.length) {
         return ''
-      } else if (this.$store.state.todolist.length > 0 && this.$store.state.currentTodoId >= 0) {
-        return this.$store.state.todolist[this.$store.state.currentTodoId].title
+      } else if (this.getTodos.length > 0 && this.$store.state.currentTodoId >= 0) {
+        return this.getTodos[this.$store.state.currentTodoId].title
       } else {
-        return this.$store.state.todolist[0].title
+        return this.getTodos[0].title
       }
     },
     contentTarget () {
-      if (!this.$store.state.todolist.length) {
+      if (!this.getTodos.length) {
         return ''
-      } else if (this.$store.state.todolist.length > 0 && this.$store.state.currentTodoId >= 0) {
-        return this.$store.state.todolist[this.$store.state.currentTodoId].content
+      } else if (this.getTodos.length > 0 && this.$store.state.currentTodoId >= 0) {
+        return this.getTodos[this.$store.state.currentTodoId].content
       } else {
-        return this.$store.state.todolist[0].content
+        return this.getTodos[0].content
       }
     }
   },

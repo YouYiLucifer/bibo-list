@@ -9,7 +9,7 @@
                style="outline: none"
                @keyup.enter="addTitle">
       </div>
-      <div class="menu" v-show="this.$store.state.todolist.length">
+      <div v-if="this.$store.state.todolist.length">
         <ul>
           <li class="item"
               :class="{ active: currentTodoId === getTodos.indexOf(item),
@@ -30,7 +30,7 @@
           </li>
         </ul>
       </div>
-      <div class="no-title" v-show="!this.$store.state.todolist.length">
+      <div class="no-title" v-if="!this.$store.state.todolist.length">
         <div class="wrapper">
           <span class="icon_drawer"></span>
         </div>
@@ -51,8 +51,8 @@ export default {
   },
   watch: {
     getTodos: {
-      handler (getTodos) {
-        store.save(getTodos)
+      handler () {
+        store.save(this.$store.state.todolist)
       },
       deep: true
     }
@@ -131,56 +131,50 @@ export default {
         border-radius 4px
         color rgb(130, 130, 130)
         border 1px solid rgb(230, 230, 230)
-  .item
-    display block
-    padding 12px 30px
-    box-sizing border-box
-    position relative
-    font-size 14px
-    line-height 14px
-    text-decoration none
-    color rgb(70, 70, 70)
-    &.isFinished
-      color rgb(200, 200, 200)
-    &.isDeleted
-      color rgb(255, 160, 160)
-    &.active
-      background rgb(240, 240, 240)
-    &:hover
-      background rgb(240, 240, 240)
-    .tags
-      float right
-      .icon_unchecked, .icon_checked, .icon_drawer
-        margin-right 8px
+    .item
+      padding 12px 30px
+      // position relative
+      font-size 14px
+      line-height 14px
+      text-decoration none
+      color rgb(70, 70, 70)
+      &.isFinished
+        color rgb(200, 200, 200)
+      &.isDeleted
+        color rgb(255, 160, 160)
+      &.active
+        background rgb(240, 240, 240)
+      &:hover
+        background rgb(240, 240, 240)
+      .tags
+        float right
         font-size 14px
-        &:hover
-          cursor pointer
-      .icon-trash
-        font-size 14px
-        &:hover
-          cursor pointer
-  .no-title
-    // display flex
-    width 100%
-    height 100%
-    .wrapper
-      margin 60px auto 0
-      width 200px
-      height 200px
-      border-radius 50%
-      background rgb(80, 130, 225)
-      .icon_drawer
+        .icon_unchecked, .icon_checked, .icon_drawer
+          margin-right 8px
+          &:hover
+            cursor pointer
+        .icon-trash
+          &:hover
+            cursor pointer
+    .no-title
+      width 100%
+      height 100%
+      .wrapper
+        margin 60px auto 0
+        width 200px
+        height 200px
+        border-radius 50%
+        background rgb(80, 130, 225)
+        .icon_drawer
+          display block
+          text-align center
+          line-height 160px
+          font-size 100px
+          color #fff
+      .text
         display block
+        margin 40px auto 0
+        font-size 30px
         text-align center
-        line-height 150px
-        font-size 100px
-        color #fff
-    .text
-      display block
-      margin 40px auto 0
-      width 250px
-      height 50px
-      font-size 30px
-      text-align center
-      color rgb(200, 200, 200)
+        color rgb(200, 200, 200)
 </style>
