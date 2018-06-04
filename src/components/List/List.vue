@@ -42,6 +42,7 @@
 <script>
 import * as types from '../../vuex/types'
 import store from '../../common/js/store'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -64,9 +65,9 @@ export default {
       }
       return this.$store.state.todolist.filter(todo => todo.status === this.$store.state.currentTag)
     },
-    currentTodoId () {
-      return this.$store.state.currentTodoId
-    }
+    ...mapState([
+      'currentTodoId'
+    ])
   },
   methods: {
     addTitle () {

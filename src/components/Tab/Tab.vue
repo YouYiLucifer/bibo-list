@@ -25,9 +25,9 @@
         </li>
       </ul>
     </div>
-    <div class="vip">
+    <!-- <div class="vip">
       <a href="#" class="upgrade">升级到高级账户</a>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -112,12 +112,12 @@ export default {
         position absolute
         right 20px
         font-size 14px
-  .vip
-    width 100%
-    height 60px
-    .upgrade
-      display block
-      line-height 60px
-      text-align center
-      color #fff
+  // .vip
+  //   width 100%
+  //   height 60px
+  //   .upgrade
+  //     display block
+  //     line-height 60px
+  //     text-align center
+  //     color #fff
 </style>
